@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'ru.mephi'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs.addAll(['-Xlint:all', '-Werror'])
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+}
+
+application {
+    applicationDefaultJvmArgs = ['-Dstdout.encoding=UTF-8', '-Dstderr.encoding=UTF-8']
+}
+
+tasks.named('run', JavaExec) {
+    standardInput = System.in
+}
+
+tasks.named('jar', Jar) {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+}
