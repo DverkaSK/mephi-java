@@ -14,7 +14,7 @@ import java.util.Properties;
 
 public final class ConfigLoader {
 
-    static final String DEFAULT_RESOURCE = "/application.properties";
+    private static final String DEFAULT_RESOURCE = "/application.properties";
 
     private ConfigLoader() {
     }

@@ -27,7 +27,7 @@ public final class FileLinkRepository implements LinkRepository {
         this(file, new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT));
     }
 
-    FileLinkRepository(Path file, ObjectMapper mapper) {
+    private FileLinkRepository(Path file, ObjectMapper mapper) {
         this.file = Objects.requireNonNull(file, "file").toAbsolutePath();
         this.mapper = Objects.requireNonNull(mapper, "mapper");
         load();

@@ -9,10 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class RandomCodeGeneratorTest {
+public class RandomCodeGeneratorTest {
 
     @Test
-    void generatesCodesOfConfiguredLengthFromBase62Alphabet() {
+    public void generatesCodesOfConfiguredLengthFromBase62Alphabet() {
         RandomCodeGenerator generator = new RandomCodeGenerator(7, new Random(42));
 
         IntStream.range(0, 1000).mapToObj(i -> generator.nextCode()).forEach(code -> {
@@ -22,7 +22,7 @@ class RandomCodeGeneratorTest {
     }
 
     @Test
-    void producesVariedCodes() {
+    public void producesVariedCodes() {
         RandomCodeGenerator generator = new RandomCodeGenerator(6);
 
         long distinct = IntStream.range(0, 1000).mapToObj(i -> generator.nextCode()).distinct().count();
@@ -31,7 +31,7 @@ class RandomCodeGeneratorTest {
     }
 
     @Test
-    void rejectsNonPositiveLength() {
+    public void rejectsNonPositiveLength() {
         assertThrows(IllegalArgumentException.class, () -> new RandomCodeGenerator(0));
     }
 }

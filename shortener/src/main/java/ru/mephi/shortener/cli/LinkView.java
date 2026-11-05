@@ -90,7 +90,7 @@ public final class LinkView {
         return String.join(" ", parts);
     }
 
-    static String humanDuration(Duration duration) {
+    public static String humanDuration(Duration duration) {
         if (duration.compareTo(Duration.ofMinutes(1)) < 0) {
             return "меньше минуты";
         }

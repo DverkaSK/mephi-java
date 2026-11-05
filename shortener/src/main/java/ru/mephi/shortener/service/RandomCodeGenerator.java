@@ -8,7 +8,7 @@ import java.util.random.RandomGenerator;
 
 public final class RandomCodeGenerator implements ShortCodeGenerator {
 
-    static final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    public static final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     private final int length;
     private final RandomGenerator random;
@@ -17,7 +17,7 @@ public final class RandomCodeGenerator implements ShortCodeGenerator {
         this(length, new SecureRandom());
     }
 
-    RandomCodeGenerator(int length, RandomGenerator random) {
+    public RandomCodeGenerator(int length, RandomGenerator random) {
         if (length < 1) {
             throw new IllegalArgumentException("length must be positive: " + length);
         }

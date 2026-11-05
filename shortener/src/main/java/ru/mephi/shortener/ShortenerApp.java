@@ -39,12 +39,12 @@ import java.util.function.Supplier;
 
 public final class ShortenerApp {
 
-    static final String CONFIG_PROPERTY = "shortener.config";
-    static final String CONFIG_OPTION = "--config";
+    private static final String CONFIG_PROPERTY = "shortener.config";
+    private static final String CONFIG_OPTION = "--config";
 
-    static final int EXIT_OK = 0;
-    static final int EXIT_FAILURE = 1;
-    static final int EXIT_USAGE = 2;
+    private static final int EXIT_OK = 0;
+    private static final int EXIT_FAILURE = 1;
+    private static final int EXIT_USAGE = 2;
 
     private ShortenerApp() {
     }
@@ -56,7 +56,7 @@ public final class ShortenerApp {
         }
     }
 
-    static int run(String[] args, PrintStream out, PrintStream err) {
+    private static int run(String[] args, PrintStream out, PrintStream err) {
         try {
             AppConfig config = ConfigLoader.load(configPath(args), System.getProperties());
             return start(config, createRepository(config), out);
@@ -89,7 +89,7 @@ public final class ShortenerApp {
                 .orElseGet(InMemoryLinkRepository::new);
     }
 
-    static Components assemble(
+    public static Components assemble(
             AppConfig config,
             LinkRepository repository,
             BrowserLauncher browser,
@@ -110,7 +110,7 @@ public final class ShortenerApp {
         return new Components(links, new ShortenerCli(CommandRegistry.standard(), context));
     }
 
-    static Optional<Path> configPath(String[] args) {
+    public static Optional<Path> configPath(String[] args) {
         if (args.length == 0) {
             return Optional.ofNullable(System.getProperty(CONFIG_PROPERTY)).map(ShortenerApp::toPath);
         }
@@ -136,6 +136,6 @@ public final class ShortenerApp {
         return console != null ? console.charset() : StandardCharsets.UTF_8;
     }
 
-    record Components(LinkService links, ShortenerCli cli) {
+    public record Components(LinkService links, ShortenerCli cli) {
     }
 }

@@ -9,24 +9,24 @@ import java.net.http.HttpClient;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class YandexWeatherClientTest {
+public class YandexWeatherClientTest {
 
     private static final String API_KEY = "test-key";
 
     private HttpClient httpClient;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         httpClient = HttpClient.newHttpClient();
     }
 
     @AfterEach
-    void tearDown() {
+    public void tearDown() {
         httpClient.close();
     }
 
     @Test
-    void buildsForecastUriWithPlainNumbers() {
+    public void buildsForecastUriWithPlainNumbers() {
         YandexWeatherClient client = new YandexWeatherClient(httpClient, API_KEY);
 
         assertEquals("https://api.weather.yandex.ru/v2/forecast?lat=55.75&lon=37.62&limit=3",
@@ -36,7 +36,7 @@ class YandexWeatherClientTest {
     }
 
     @Test
-    void sendsGetWithApiKeyHeaderAndLimit() throws Exception {
+    public void sendsGetWithApiKeyHeaderAndLimit() throws Exception {
         try (FakeWeatherServer server = FakeWeatherServer.respondingWith(200, TestData.FORECAST_RESPONSE)) {
             YandexWeatherClient client = new YandexWeatherClient(httpClient, server.endpoint(), API_KEY);
 
@@ -51,7 +51,7 @@ class YandexWeatherClientTest {
     }
 
     @Test
-    void throwsOnNonSuccessStatus() throws Exception {
+    public void throwsOnNonSuccessStatus() throws Exception {
         try (FakeWeatherServer server = FakeWeatherServer.respondingWith(403, "{\"message\":\"forbidden\"}")) {
             YandexWeatherClient client = new YandexWeatherClient(httpClient, server.endpoint(), API_KEY);
 

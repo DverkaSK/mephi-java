@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class ExpirationSchedulerTest {
+public class ExpirationSchedulerTest {
 
     private static final UUID OWNER = UUID.randomUUID();
 
@@ -31,7 +31,7 @@ class ExpirationSchedulerTest {
             new UrlValidator(2048, "clck.ru"), inbox, new LinkPolicy(Duration.ofHours(1), 10, 100), clock);
 
     @Test
-    void removesExpiredLinksInBackgroundWithoutAnyAccess() throws InterruptedException {
+    public void removesExpiredLinksInBackgroundWithoutAnyAccess() throws InterruptedException {
         ShortLink link = service.shorten(OWNER, "https://openjdk.org", OptionalInt.empty());
 
         try (ExpirationScheduler scheduler = new ExpirationScheduler(service, Duration.ofMillis(20))) {
@@ -51,7 +51,7 @@ class ExpirationSchedulerTest {
     }
 
     @Test
-    void sweepSurvivesFailures() {
+    public void sweepSurvivesFailures() {
         Clock broken = new Clock() {
             @Override
             public ZoneId getZone() {

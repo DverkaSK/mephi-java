@@ -16,10 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class ConfigLoaderTest {
+public class ConfigLoaderTest {
 
     @Test
-    void loadsBundledDefaults() {
+    public void loadsBundledDefaults() {
         AppConfig config = ConfigLoader.load(Optional.empty(), new Properties());
 
         assertEquals("clck.ru", config.domain());
@@ -32,7 +32,7 @@ class ConfigLoaderTest {
     }
 
     @Test
-    void externalFileAndOverridesTakePrecedence(@TempDir Path dir) throws IOException {
+    public void externalFileAndOverridesTakePrecedence(@TempDir Path dir) throws IOException {
         Path file = dir.resolve("custom.properties");
         Files.writeString(file, "link.ttl=1h\nlink.click-limit.default=3\nstorage.file=\n");
         Properties overrides = new Properties();
@@ -49,7 +49,7 @@ class ConfigLoaderTest {
 
     @ParameterizedTest
     @CsvSource({"30s, PT30S", "15m, PT15M", "2h, PT2H", "1d, PT24H", "PT1H30M, PT1H30M", "p1d, PT24H"})
-    void parsesDurations(String text, String expected) {
+    public void parsesDurations(String text, String expected) {
         assertEquals(Duration.parse(expected), DurationParser.parse("key", text));
     }
 
@@ -64,7 +64,7 @@ class ConfigLoaderTest {
             "link.domain, https://clck.ru/",
             "cleanup.interval, -1"
     })
-    void rejectsInvalidValues(String key, String value) {
+    public void rejectsInvalidValues(String key, String value) {
         Properties overrides = new Properties();
         overrides.setProperty(key, value);
 
@@ -72,7 +72,7 @@ class ConfigLoaderTest {
     }
 
     @Test
-    void reportsMissingFile(@TempDir Path dir) {
+    public void reportsMissingFile(@TempDir Path dir) {
         ConfigurationException error = assertThrows(ConfigurationException.class,
                 () -> ConfigLoader.load(Optional.of(dir.resolve("absent.properties")), new Properties()));
         assertTrue(error.getMessage().contains("absent.properties"));

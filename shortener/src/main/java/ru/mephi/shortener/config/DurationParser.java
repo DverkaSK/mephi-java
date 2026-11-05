@@ -6,14 +6,14 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-final class DurationParser {
+public final class DurationParser {
 
     private static final Pattern SHORT_FORM = Pattern.compile("(\\d{1,9})\\s*([smhd])");
 
     private DurationParser() {
     }
 
-    static Duration parse(String key, String text) {
+    public static Duration parse(String key, String text) {
         String value = text.strip().toLowerCase(Locale.ROOT);
         Matcher matcher = SHORT_FORM.matcher(value);
         if (matcher.matches()) {

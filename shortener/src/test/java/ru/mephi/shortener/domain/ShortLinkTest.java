@@ -8,7 +8,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class ShortLinkTest {
+public class ShortLinkTest {
 
     private static final Instant CREATED = Instant.parse("2026-11-05T10:00:00Z");
     private static final Instant EXPIRES = CREATED.plusSeconds(3600);
@@ -18,14 +18,14 @@ class ShortLinkTest {
     }
 
     @Test
-    void reportsStatusByClicksAndTime() {
+    public void reportsStatusByClicksAndTime() {
         assertEquals(LinkStatus.ACTIVE, link(2, 1).statusAt(CREATED));
         assertEquals(LinkStatus.LIMIT_EXHAUSTED, link(2, 2).statusAt(CREATED));
         assertEquals(LinkStatus.EXPIRED, link(2, 0).statusAt(EXPIRES));
     }
 
     @Test
-    void clickIncrementsCounterAndStopsAtLimit() {
+    public void clickIncrementsCounterAndStopsAtLimit() {
         ShortLink clicked = link(1, 0).withClick();
 
         assertEquals(1, clicked.clickCount());
@@ -34,7 +34,7 @@ class ShortLinkTest {
     }
 
     @Test
-    void rejectsInconsistentState() {
+    public void rejectsInconsistentState() {
         assertThrows(IllegalArgumentException.class, () -> link(0, 0));
         assertThrows(IllegalArgumentException.class, () -> link(1, 2));
         assertThrows(IllegalArgumentException.class, () -> link(1, -1));

@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class FileLinkRepositoryTest {
+public class FileLinkRepositoryTest {
 
     private static final UUID OWNER = UUID.randomUUID();
     private static final Instant CREATED = Instant.parse("2026-11-05T10:00:00Z");
@@ -27,7 +27,7 @@ class FileLinkRepositoryTest {
     }
 
     @Test
-    void persistsLinksBetweenInstances(@TempDir Path dir) {
+    public void persistsLinksBetweenInstances(@TempDir Path dir) {
         Path file = dir.resolve("nested").resolve("links.json");
         FileLinkRepository first = new FileLinkRepository(file);
         first.save(link("aaa111", 0));
@@ -44,12 +44,12 @@ class FileLinkRepositoryTest {
     }
 
     @Test
-    void startsEmptyWhenFileIsAbsent(@TempDir Path dir) {
+    public void startsEmptyWhenFileIsAbsent(@TempDir Path dir) {
         assertTrue(new FileLinkRepository(dir.resolve("links.json")).findAll().isEmpty());
     }
 
     @Test
-    void failsClearlyOnCorruptedFile(@TempDir Path dir) throws IOException {
+    public void failsClearlyOnCorruptedFile(@TempDir Path dir) throws IOException {
         Path file = dir.resolve("links.json");
         Files.writeString(file, "{not json");
 

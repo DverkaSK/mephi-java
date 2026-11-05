@@ -32,7 +32,7 @@ public final class ExpirationScheduler implements AutoCloseable {
         executor.scheduleWithFixedDelay(this::sweep, 0, periodMillis, TimeUnit.MILLISECONDS);
     }
 
-    void sweep() {
+    public void sweep() {
         try {
             int removed = linkService.purgeExpired();
             if (removed > 0) {

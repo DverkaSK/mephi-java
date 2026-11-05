@@ -5,7 +5,7 @@ import ru.mephi.shortener.domain.ShortLink;
 import java.time.Instant;
 import java.util.UUID;
 
-record LinkRecord(
+public record LinkRecord(
         String code,
         String originalUrl,
         String owner,
@@ -14,7 +14,7 @@ record LinkRecord(
         int clickLimit,
         int clickCount) {
 
-    static LinkRecord from(ShortLink link) {
+    public static LinkRecord from(ShortLink link) {
         return new LinkRecord(
                 link.code(),
                 link.originalUrl(),
@@ -25,7 +25,7 @@ record LinkRecord(
                 link.clickCount());
     }
 
-    ShortLink toDomain() {
+    public ShortLink toDomain() {
         return new ShortLink(
                 code,
                 originalUrl,

@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
-final class FakeWeatherServer implements AutoCloseable {
+public final class FakeWeatherServer implements AutoCloseable {
 
     private static final String PATH = "/v2/forecast";
 
@@ -22,7 +22,7 @@ final class FakeWeatherServer implements AutoCloseable {
         this.server = server;
     }
 
-    static FakeWeatherServer respondingWith(int status, String body) throws IOException {
+    public static FakeWeatherServer respondingWith(int status, String body) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(InetAddress.getLoopbackAddress(), 0), 0);
         FakeWeatherServer fake = new FakeWeatherServer(server);
         byte[] payload = body.getBytes(StandardCharsets.UTF_8);
@@ -42,12 +42,12 @@ final class FakeWeatherServer implements AutoCloseable {
         return fake;
     }
 
-    URI endpoint() {
+    public URI endpoint() {
         return URI.create("http://%s:%d%s".formatted(
                 server.getAddress().getHostString(), server.getAddress().getPort(), PATH));
     }
 
-    Optional<RecordedRequest> lastRequest() {
+    public Optional<RecordedRequest> lastRequest() {
         return Optional.ofNullable(lastRequest.get());
     }
 
@@ -56,6 +56,6 @@ final class FakeWeatherServer implements AutoCloseable {
         server.stop(0);
     }
 
-    record RecordedRequest(String method, String query, String apiKey) {
+    public record RecordedRequest(String method, String query, String apiKey) {
     }
 }

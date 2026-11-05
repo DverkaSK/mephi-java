@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 
 public final class LinkService {
 
-    static final int MAX_GENERATION_ATTEMPTS = 20;
+    private static final int MAX_GENERATION_ATTEMPTS = 20;
 
     private final LinkRepository repository;
     private final ShortCodeGenerator codeGenerator;

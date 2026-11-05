@@ -16,9 +16,9 @@ public record AppConfig(
         Duration cleanupInterval,
         Optional<Path> storageFile) {
 
-    static final int MIN_CODE_LENGTH = 4;
-    static final int MAX_CODE_LENGTH = 16;
-    static final int MIN_URL_LENGTH = 16;
+    private static final int MIN_CODE_LENGTH = 4;
+    private static final int MAX_CODE_LENGTH = 16;
+    private static final int MIN_URL_LENGTH = 16;
 
     private static final Pattern DOMAIN = Pattern.compile("[A-Za-z0-9.-]+(:\\d{1,5})?");
 

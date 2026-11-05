@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class ShortenerScenarioTest {
+public class ShortenerScenarioTest {
 
     private static final String URL = "https://www.baeldung.com/java-9-http-client";
     private static final UUID ALICE = UUID.fromString("11111111-1111-1111-1111-111111111111");
@@ -65,7 +65,7 @@ class ShortenerScenarioTest {
     }
 
     @Test
-    void firstShortenCreatesUserAndPastedLinkOpensBrowser() {
+    public void firstShortenCreatesUserAndPastedLinkOpensBrowser() {
         String created = exec("shorten " + URL + " 2");
         String code = code(created);
 
@@ -78,7 +78,7 @@ class ShortenerScenarioTest {
     }
 
     @Test
-    void differentUsersGetDifferentLinksForSameUrl() {
+    public void differentUsersGetDifferentLinksForSameUrl() {
         String alices = code(exec("shorten " + URL));
         exec("logout");
         String bobs = code(exec("shorten " + URL));
@@ -90,7 +90,7 @@ class ShortenerScenarioTest {
     }
 
     @Test
-    void limitExhaustionBlocksLinkAndNotifiesOwner() throws IOException {
+    public void limitExhaustionBlocksLinkAndNotifiesOwner() throws IOException {
         String code = code(exec("shorten " + URL + " 1"));
         exec("open " + code);
 
@@ -110,7 +110,7 @@ class ShortenerScenarioTest {
     }
 
     @Test
-    void expiredLinkIsRemovedAndOwnerIsNotified() throws IOException {
+    public void expiredLinkIsRemovedAndOwnerIsNotified() throws IOException {
         String code = code(exec("shorten " + URL));
         clock.advance(Duration.ofHours(23));
         assertTrue(exec("info " + code).contains("осталось 1 ч"));
@@ -130,7 +130,7 @@ class ShortenerScenarioTest {
     }
 
     @Test
-    void anotherUserCannotManageForeignLink() {
+    public void anotherUserCannotManageForeignLink() {
         String code = code(exec("shorten " + URL));
         exec("logout");
         exec("shorten https://openjdk.org");
@@ -144,7 +144,7 @@ class ShortenerScenarioTest {
     }
 
     @Test
-    void invalidInputProducesFriendlyErrors() {
+    public void invalidInputProducesFriendlyErrors() {
         assertTrue(exec("shorten").contains("Использование: shorten <url> [лимит]"));
         assertTrue(exec("shorten ftp://files.example.com").contains("не поддерживается"));
         assertTrue(exec("shorten " + URL + " many").contains("целым числом"));
@@ -157,7 +157,7 @@ class ShortenerScenarioTest {
     }
 
     @Test
-    void helpListsCommandsAndExitStopsLoop() {
+    public void helpListsCommandsAndExitStopsLoop() {
         String help = exec("help");
         List.of("shorten", "open", "list", "info", "limit", "edit", "delete", "whoami", "login", "logout", "exit")
                 .forEach(name -> assertTrue(help.contains(name), name));

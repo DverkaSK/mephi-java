@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class WeatherAppTest {
+public class WeatherAppTest {
 
     private final ByteArrayOutputStream outBuffer = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errBuffer = new ByteArrayOutputStream();
@@ -21,7 +21,7 @@ class WeatherAppTest {
     private final PrintStream err = new PrintStream(errBuffer, true, StandardCharsets.UTF_8);
 
     @Test
-    void printsFullResponseCurrentAndAverageTemperature() throws Exception {
+    public void printsFullResponseCurrentAndAverageTemperature() throws Exception {
         try (FakeWeatherServer server = FakeWeatherServer.respondingWith(200, TestData.FORECAST_RESPONSE);
              HttpClient httpClient = HttpClient.newHttpClient()) {
             YandexWeatherClient client = new YandexWeatherClient(httpClient, server.endpoint(), "key");
@@ -36,7 +36,7 @@ class WeatherAppTest {
     }
 
     @Test
-    void failsWithUsageCodeWhenApiKeyMissing() {
+    public void failsWithUsageCodeWhenApiKeyMissing() {
         int exitCode = WeatherApp.run(new String[0], Map.of(), out, err);
 
         assertEquals(WeatherApp.EXIT_USAGE, exitCode);
@@ -45,7 +45,7 @@ class WeatherAppTest {
     }
 
     @Test
-    void failsWithUsageCodeOnInvalidArgs() {
+    public void failsWithUsageCodeOnInvalidArgs() {
         int exitCode = WeatherApp.run(new String[]{"NaN"}, Map.of(WeatherApp.API_KEY_ENV, "key"), out, err);
 
         assertEquals(WeatherApp.EXIT_USAGE, exitCode);
@@ -53,7 +53,7 @@ class WeatherAppTest {
     }
 
     @Test
-    void resolvesApiKeyStrippingWhitespace() {
+    public void resolvesApiKeyStrippingWhitespace() {
         assertEquals("abc", WeatherApp.resolveApiKey(Map.of(WeatherApp.API_KEY_ENV, "  abc \n")));
         assertThrows(ConfigurationException.class,
                 () -> WeatherApp.resolveApiKey(Map.of(WeatherApp.API_KEY_ENV, "   ")));

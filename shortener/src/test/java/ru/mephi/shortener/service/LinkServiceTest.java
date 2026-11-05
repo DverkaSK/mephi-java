@@ -37,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class LinkServiceTest {
+public class LinkServiceTest {
 
     private static final String URL = "https://www.baeldung.com/java-9-http-client";
     private static final Duration TTL = Duration.ofHours(24);
@@ -58,7 +58,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void sameUrlShortenedByDifferentUsersGetsDifferentCodes() {
+    public void sameUrlShortenedByDifferentUsersGetsDifferentCodes() {
         LinkService service = service();
 
         ShortLink alices = service.shorten(ALICE, URL, OptionalInt.empty());
@@ -70,7 +70,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void codesStayUniqueAcrossManyUsersAndLinks() {
+    public void codesStayUniqueAcrossManyUsersAndLinks() {
         LinkService service = service(new RandomCodeGenerator(4), TTL);
 
         long distinct = IntStream.range(0, 2000)
@@ -82,7 +82,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void retriesWhenGeneratedCodeIsTaken() {
+    public void retriesWhenGeneratedCodeIsTaken() {
         Deque<String> codes = new ArrayDeque<>(List.of("AAAAAA", "AAAAAA", "BBBBBB"));
         LinkService service = service(codes::poll, TTL);
 
@@ -94,7 +94,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void failsWhenNoFreeCodeFound() {
+    public void failsWhenNoFreeCodeFound() {
         LinkService service = service(() -> "SAME00", TTL);
         service.shorten(ALICE, URL, OptionalInt.empty());
 
@@ -102,7 +102,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void userCanOwnSeveralLinksAndSeesOnlyOwnLinks() {
+    public void userCanOwnSeveralLinksAndSeesOnlyOwnLinks() {
         LinkService service = service();
         ShortLink first = service.shorten(ALICE, "https://openjdk.org", OptionalInt.empty());
         clock.advance(Duration.ofSeconds(1));
@@ -114,7 +114,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void usesDefaultLimitAndTtlFromPolicy() {
+    public void usesDefaultLimitAndTtlFromPolicy() {
         ShortLink link = service().shorten(ALICE, URL, OptionalInt.empty());
 
         assertEquals(10, link.clickLimit());
@@ -122,7 +122,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void blocksLinkAfterClickLimitAndNotifiesOwnerOnce() {
+    public void blocksLinkAfterClickLimitAndNotifiesOwnerOnce() {
         LinkService service = service();
         ShortLink link = service.shorten(ALICE, URL, OptionalInt.of(2));
 
@@ -143,7 +143,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void countsConcurrentClicksExactly() throws InterruptedException {
+    public void countsConcurrentClicksExactly() throws InterruptedException {
         LinkService service = service();
         ShortLink link = service.shorten(ALICE, URL, OptionalInt.of(100));
         AtomicInteger succeeded = new AtomicInteger();
@@ -171,7 +171,7 @@ class LinkServiceTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"PT1H", "PT24H", "P7D"})
-    void expiredLinkIsUnavailableExactlyAtTtl(String ttlText) {
+    public void expiredLinkIsUnavailableExactlyAtTtl(String ttlText) {
         Duration ttl = Duration.parse(ttlText);
         LinkService service = service(new RandomCodeGenerator(6), ttl);
         ShortLink link = service.shorten(ALICE, URL, OptionalInt.empty());
@@ -189,7 +189,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void purgeRemovesOnlyExpiredLinksAndNotifiesOwners() {
+    public void purgeRemovesOnlyExpiredLinksAndNotifiesOwners() {
         LinkService service = service();
         ShortLink old = service.shorten(ALICE, URL, OptionalInt.empty());
         clock.advance(Duration.ofHours(12));
@@ -206,7 +206,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void onlyOwnerCanEditOrDelete() {
+    public void onlyOwnerCanEditOrDelete() {
         LinkService service = service();
         String code = service.shorten(ALICE, URL, OptionalInt.empty()).code();
 
@@ -223,7 +223,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void ownerCanRaiseLimitToUnblockLink() {
+    public void ownerCanRaiseLimitToUnblockLink() {
         LinkService service = service();
         String code = service.shorten(ALICE, URL, OptionalInt.of(1)).code();
         service.follow(code);
@@ -236,7 +236,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void rejectsInvalidLimits() {
+    public void rejectsInvalidLimits() {
         LinkService service = service();
         String code = service.shorten(ALICE, URL, OptionalInt.of(5)).code();
         service.follow(code);
@@ -251,7 +251,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void ownerCanChangeTargetUrlKeepingCode() {
+    public void ownerCanChangeTargetUrlKeepingCode() {
         LinkService service = service();
         String code = service.shorten(ALICE, URL, OptionalInt.empty()).code();
 
@@ -262,7 +262,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void ownerOperationsOnExpiredLinkReportExpiration() {
+    public void ownerOperationsOnExpiredLinkReportExpiration() {
         LinkService service = service();
         String code = service.shorten(ALICE, URL, OptionalInt.empty()).code();
         clock.advance(TTL);
@@ -275,7 +275,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void unknownCodeIsReported() {
+    public void unknownCodeIsReported() {
         assertThrows(LinkNotFoundException.class, () -> service().follow("nope00"));
     }
 }

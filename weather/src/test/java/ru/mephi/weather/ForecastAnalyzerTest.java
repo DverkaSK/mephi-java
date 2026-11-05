@@ -7,29 +7,29 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class ForecastAnalyzerTest {
+public class ForecastAnalyzerTest {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Test
-    void extractsCurrentTemperature() throws Exception {
+    public void extractsCurrentTemperature() throws Exception {
         JsonNode root = MAPPER.readTree(TestData.FORECAST_RESPONSE);
 
         assertEquals(7, ForecastAnalyzer.currentTemperature(root).orElseThrow().intValue());
     }
 
     @Test
-    void currentTemperatureIsEmptyWhenFactMissing() throws Exception {
+    public void currentTemperatureIsEmptyWhenFactMissing() throws Exception {
         assertTrue(ForecastAnalyzer.currentTemperature(MAPPER.readTree("{}")).isEmpty());
     }
 
     @Test
-    void currentTemperatureIsEmptyWhenNotNumber() throws Exception {
+    public void currentTemperatureIsEmptyWhenNotNumber() throws Exception {
         assertTrue(ForecastAnalyzer.currentTemperature(MAPPER.readTree("{\"fact\": {\"temp\": \"7\"}}")).isEmpty());
     }
 
     @Test
-    void averagesOnlyFirstLimitDays() throws Exception {
+    public void averagesOnlyFirstLimitDays() throws Exception {
         JsonNode root = MAPPER.readTree(TestData.FORECAST_RESPONSE);
 
         ForecastAnalyzer.AverageTemperature average = ForecastAnalyzer.averageDayTemperature(root, 2).orElseThrow();
@@ -39,7 +39,7 @@ class ForecastAnalyzerTest {
     }
 
     @Test
-    void usesAvailableDaysWhenLimitExceedsForecast() throws Exception {
+    public void usesAvailableDaysWhenLimitExceedsForecast() throws Exception {
         JsonNode root = MAPPER.readTree(TestData.FORECAST_RESPONSE);
 
         ForecastAnalyzer.AverageTemperature average = ForecastAnalyzer.averageDayTemperature(root, 10).orElseThrow();
@@ -49,7 +49,7 @@ class ForecastAnalyzerTest {
     }
 
     @Test
-    void averageIsEmptyWithoutForecasts() throws Exception {
+    public void averageIsEmptyWithoutForecasts() throws Exception {
         assertTrue(ForecastAnalyzer.averageDayTemperature(MAPPER.readTree("{\"fact\": {\"temp\": 1}}"), 7).isEmpty());
     }
 }

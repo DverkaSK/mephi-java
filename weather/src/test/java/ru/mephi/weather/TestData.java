@@ -1,8 +1,8 @@
 package ru.mephi.weather;
 
-final class TestData {
+public final class TestData {
 
-    static final String FORECAST_RESPONSE = """
+    public static final String FORECAST_RESPONSE = """
             {
               "now": 1729425600,
               "fact": { "temp": 7, "feels_like": 3, "condition": "cloudy" },

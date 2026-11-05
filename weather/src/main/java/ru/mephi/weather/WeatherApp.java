@@ -16,11 +16,11 @@ import java.util.function.Predicate;
 
 public final class WeatherApp {
 
-    static final String API_KEY_ENV = "YANDEX_WEATHER_KEY";
+    public static final String API_KEY_ENV = "YANDEX_WEATHER_KEY";
 
-    static final int EXIT_OK = 0;
-    static final int EXIT_FAILURE = 1;
-    static final int EXIT_USAGE = 2;
+    private static final int EXIT_OK = 0;
+    private static final int EXIT_FAILURE = 1;
+    public static final int EXIT_USAGE = 2;
 
     private static final Duration CONNECT_TIMEOUT = Duration.ofSeconds(10);
 
@@ -28,7 +28,7 @@ public final class WeatherApp {
     private final ObjectMapper mapper;
     private final PrintStream out;
 
-    WeatherApp(YandexWeatherClient client, ObjectMapper mapper, PrintStream out) {
+    public WeatherApp(YandexWeatherClient client, ObjectMapper mapper, PrintStream out) {
         this.client = Objects.requireNonNull(client, "client");
         this.mapper = Objects.requireNonNull(mapper, "mapper");
         this.out = Objects.requireNonNull(out, "out");
@@ -41,7 +41,7 @@ public final class WeatherApp {
         }
     }
 
-    static int run(String[] args, Map<String, String> env, PrintStream out, PrintStream err) {
+    public static int run(String[] args, Map<String, String> env, PrintStream out, PrintStream err) {
         try {
             WeatherRequest request = WeatherRequest.fromArgs(args);
             String apiKey = resolveApiKey(env);
@@ -71,7 +71,7 @@ public final class WeatherApp {
         }
     }
 
-    static String resolveApiKey(Map<String, String> env) {
+    public static String resolveApiKey(Map<String, String> env) {
         return Optional.ofNullable(env.get(API_KEY_ENV))
                 .map(String::strip)
                 .filter(Predicate.not(String::isEmpty))
@@ -79,7 +79,7 @@ public final class WeatherApp {
                         "Не задан ключ API: установите переменную окружения " + API_KEY_ENV));
     }
 
-    void printReport(WeatherRequest request) throws IOException, InterruptedException {
+    public void printReport(WeatherRequest request) throws IOException, InterruptedException {
         ForecastResponse response = client.fetchForecast(request);
 
         out.println("GET " + response.requestUri());

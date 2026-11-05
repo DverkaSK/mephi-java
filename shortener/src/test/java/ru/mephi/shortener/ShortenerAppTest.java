@@ -9,10 +9,10 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class ShortenerAppTest {
+public class ShortenerAppTest {
 
     @Test
-    void parsesConfigOptionInBothForms() {
+    public void parsesConfigOptionInBothForms() {
         assertEquals(Optional.of(Path.of("a.properties")),
                 ShortenerApp.configPath(new String[] {"--config", "a.properties"}));
         assertEquals(Optional.of(Path.of("b.properties")),
@@ -20,7 +20,7 @@ class ShortenerAppTest {
     }
 
     @Test
-    void rejectsUnknownArguments() {
+    public void rejectsUnknownArguments() {
         assertThrows(ConfigurationException.class, () -> ShortenerApp.configPath(new String[] {"--verbose"}));
     }
 }

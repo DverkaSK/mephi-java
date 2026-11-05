@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class UrlValidatorTest {
+public class UrlValidatorTest {
 
     private final UrlValidator validator = new UrlValidator(64, "clck.ru");
 
@@ -23,14 +23,14 @@ class UrlValidatorTest {
             "HTTPS://Example.com, HTTPS://Example.com",
             "http://localhost:8080/health, http://localhost:8080/health"
     })
-    void acceptsAndNormalizesValidUrls(String input, String expected) {
+    public void acceptsAndNormalizesValidUrls(String input, String expected) {
         assertEquals(expected, validator.normalize(input));
     }
 
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"   "})
-    void rejectsBlankInput(String input) {
+    public void rejectsBlankInput(String input) {
         assertThrows(InvalidInputException.class, () -> validator.normalize(input));
     }
 
@@ -44,19 +44,19 @@ class UrlValidatorTest {
             "https://host:99999999",
             "http://[broken"
     })
-    void rejectsMalformedOrUnsupportedUrls(String input) {
+    public void rejectsMalformedOrUnsupportedUrls(String input) {
         assertThrows(InvalidInputException.class, () -> validator.normalize(input));
     }
 
     @Test
-    void rejectsTooLongUrl() {
+    public void rejectsTooLongUrl() {
         InvalidInputException error = assertThrows(InvalidInputException.class,
                 () -> validator.normalize("https://example.com/" + "a".repeat(64)));
         assertTrue(error.getMessage().contains("64"));
     }
 
     @Test
-    void rejectsAlreadyShortenedLink() {
+    public void rejectsAlreadyShortenedLink() {
         assertThrows(InvalidInputException.class, () -> validator.normalize("clck.ru/aB3xYz"));
     }
 }

@@ -13,7 +13,7 @@ public final class YandexWeatherClient {
 
     public static final URI DEFAULT_ENDPOINT = URI.create("https://api.weather.yandex.ru/v2/forecast");
 
-    static final String API_KEY_HEADER = "X-Yandex-Weather-Key";
+    public static final String API_KEY_HEADER = "X-Yandex-Weather-Key";
 
     private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(20);
     private static final int HTTP_OK = 200;

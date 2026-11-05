@@ -11,10 +11,10 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class InMemoryNotificationInboxTest {
+public class InMemoryNotificationInboxTest {
 
     @Test
-    void deliversNotificationsOnlyToRecipientAndOnlyOnce() {
+    public void deliversNotificationsOnlyToRecipientAndOnlyOnce() {
         InMemoryNotificationInbox inbox = new InMemoryNotificationInbox();
         UUID alice = UUID.randomUUID();
         UUID bob = UUID.randomUUID();
