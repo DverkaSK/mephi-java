@@ -2,3 +2,4 @@ rootProject.name = 'mephi-java'
 
 include 'calculator'
 include 'weather'
+include 'shortener'

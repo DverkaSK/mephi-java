@@ -1,9 +1,12 @@
 import java.util.Scanner;
 
-public class Calculator {
+public final class Calculator {
 
     private static final String RESET_COMMAND = "c";
     private static final String STOP_COMMAND = "s";
+
+    private Calculator() {
+    }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
